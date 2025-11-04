@@ -12,8 +12,8 @@ http {
 
     server {
         listen ${NGINX_PORT};
-        location /sub/${SUB_PATH}/ {
-            proxy_pass http://node_app/${SUB_PATH};
+        location /sub {
+            proxy_pass http://node_app/sub;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
