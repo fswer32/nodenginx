@@ -12,17 +12,12 @@ http {
 
     server {
         listen ${NGINX_PORT};
-
-        # 1. 订阅路径（base64）
-        location /${SUB_PATH} {
+        location /sub/${SUB_PATH}/ {
             proxy_pass http://node_app/${SUB_PATH};
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
-
-
-        # 3. 根路径：所有其他流量 → Argo 隧道（Xray）
         location / {
             proxy_pass http://argo_tunnel;
             proxy_set_header Host $host;
