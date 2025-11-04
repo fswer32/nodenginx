@@ -12,7 +12,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache \
         nodejs npm \
         nginx \
-        gettext \           # ← 必须加这一行
+        gettext \
         openssl curl bash coreutils gcompat iproute2 && \
     rm -rf /var/cache/apk/*
 
