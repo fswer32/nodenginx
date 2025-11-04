@@ -7,11 +7,12 @@ RUN npm install
 # ---------- Runtime ----------
 FROM alpine:3.20
 
-# 安装 Node.js、Nginx、常用工具
+# 安装 Node.js、Nginx、gettext（提供 envsubst）等
 RUN apk update && apk upgrade && \
     apk add --no-cache \
         nodejs npm \
         nginx \
+        gettext \           # ← 必须加这一行
         openssl curl bash coreutils gcompat iproute2 && \
     rm -rf /var/cache/apk/*
 
@@ -23,12 +24,12 @@ COPY index.js package.json ./
 # 复制 Nginx 配置模板
 COPY nginx/nginx.conf.tpl /etc/nginx/nginx.conf.tpl
 
-# 暴露端口（默认 80，运行时可通过环境变量覆盖）
-EXPOSE 80
-
-# 启动脚本（负责变量替换 + 启动 Nginx + Node）
+# 复制启动脚本
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# 暴露 Nginx 端口
+EXPOSE 80
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["node", "index.js"]
