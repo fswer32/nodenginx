@@ -9,7 +9,11 @@ ARGO_PORT=${ARGO_PORT:-8001}
 # Nginx 对外监听端口
 NGINX_PORT=${NGINX_PORT:-80}
 # 订阅路径（默认 /sub）
+# ---------- 订阅路径保护 ----------
 SUB_PATH=${SUB_PATH:-sub}
+[ "$SUB_PATH" = "/" ] && SUB_PATH="sub"
+[ -z "$SUB_PATH" ] && SUB_PATH="sub"
+
 # 运行目录（tmp）
 FILE_PATH=${FILE_PATH:-/tmp}
 
